@@ -1,0 +1,200 @@
+/*
+	Class Structure
+
+	{
+		1-dimensions	
+		2-margins/paddings
+		3-borders
+		4-position
+		5-style(color/background/etc)
+	}
+
+*/
+
+body{
+	padding-top			 : 70px;
+	background 			 : #dfe5e9;
+	background 			 : -moz-radial-gradient(center,ellipse cover,rgba(223,229,233,1) 2%,rgba(223,229,233,1) 2%,rgba(178,192,202,1) 100%);
+	background 			 : -webkit-gradient(radial,center center,0,center center,100%,color-stop(2%,rgba(223,229,233,1)),color-stop(2%,rgba(223,229,233,1)),color-stop(100%,rgba(178,192,202,1)));
+	background 			 : -webkit-radial-gradient(center,ellipse cover,rgba(223,229,233,1) 2%,rgba(223,229,233,1) 2%,rgba(178,192,202,1) 100%);
+	background 			 : -o-radial-gradient(center,ellipse cover,rgba(223,229,233,1) 2%,rgba(223,229,233,1) 2%,rgba(178,192,202,1) 100%);
+	background 			 : -ms-radial-gradient(center,ellipse cover,rgba(223,229,233,1) 2%,rgba(223,229,233,1) 2%,rgba(178,192,202,1) 100%);
+	background 			 : radial-gradient(ellipse at center,rgba(223,229,233,1) 2%,rgba(223,229,233,1) 2%,rgba(178,192,202,1) 100%);
+
+}
+
+.login-form{
+	max-width            : 480px;
+	min-width			 : 268px; 
+	
+
+	padding-left 		 : 50px; 
+	padding-right 		 : 50px; 
+	padding-bottom 		 : 35px; 
+	padding-top 		 : 20px;
+	margin-top           : 80px;
+	
+	-webkit-border-radius: 3px;
+	-moz-border-radius   : 3px;
+	border-radius        : 3px;
+	
+	position             : relative;	
+	
+	background           : #222d3a;
+	color: white;
+}
+
+.login-form a{
+	text-decoration		 : none;	
+}
+
+.login-form hr {
+	border-top			 : 1px solid rgba(0,0,0,0.13);
+	border-bottom		 : 1px solid rgba(255,255,255,0.15);
+}
+
+.login-form .header{
+	height       		 : 80px;
+
+	margin-bottom		 : 20px;
+}
+
+input[type='email'],
+input[type='text'],
+input[type='password']{
+	border-radius 		 : 0px;
+
+	margin-bottom		 : 10px;
+
+}
+
+.btn.btn-login {
+	width             	 : 120px;
+	display           	 : block;
+	border            	 : 1px solid rgba(0,0,0,0);
+	color             	 : #FFF;
+	text-transform    	 : uppercase;
+	background        	 : #12181f;
+	-webkit-transition	 : all .5s ease-in-out;
+	-moz-transition   	 : all .5s ease-in-out;
+	-o-transition     	 : all .5s ease-in-out;
+	transition        	 : all .5s ease-in-out;
+	margin            	 : 20px auto;
+}
+
+.btn.btn-login:hover {
+	border 				 : 1px solid #FFF;
+	opacity 			 : .8;
+}
+
+
+.signup-form{
+	max-width            : 480px;
+	min-width			 : 268px; 
+	
+
+	padding-left 		 : 50px; 
+	padding-right 		 : 50px; 
+	padding-bottom 		 : 35px; 
+	padding-top 		 : 20px;
+	margin-top           : 80px;
+	
+	-webkit-border-radius: 3px;
+	-moz-border-radius   : 3px;
+	border-radius        : 3px;
+	
+	position             : relative;	
+	
+	background           : #222d3a;
+	color: white;
+}
+
+.signup-form hr {
+	border-top			 : 1px solid rgba(0,0,0,0.13);
+	border-bottom		 : 1px solid rgba(255,255,255,0.15);
+}
+
+.signup-form .header{
+	height       		 : 80px;
+
+	margin-bottom		 : 20px;
+}
+
+.forgot-form{
+	max-width            : 480px;
+	min-width			 : 268px; 
+	
+
+	padding-left 		 : 50px; 
+	padding-right 		 : 50px; 
+	padding-bottom 		 : 35px; 
+	padding-top 		 : 20px;
+	margin-top           : 80px;
+	
+	-webkit-border-radius: 3px;
+	-moz-border-radius   : 3px;
+	border-radius        : 3px;
+	
+	position             : relative;	
+	
+	background           : #222d3a;
+	color: white;
+}
+
+.forgot-form hr {
+	border-top			 : 1px solid rgba(0,0,0,0.13);
+	border-bottom		 : 1px solid rgba(255,255,255,0.15);
+}
+
+.forgot-form .header{
+	height       		 : 80px;
+
+	margin-bottom		 : 20px;
+}
+
+.forgot-form p{
+	margin 				 : 5px auto 10px;
+}
+
+
+
+
+
+#header{
+	position: absolute;
+	top: 0;
+	height: 70px;
+	width: 100%;
+	background-color: #FFFFFF;
+}
+
+#menu{
+	float: right;
+	width: 700px;
+	height: 70px;
+	list-style: none;
+	padding: 0;
+	margin: 0;	
+}
+
+#header #site-navigation ul li{
+	display: inline-block;
+	height: inherit;
+	float: right;
+}
+
+#header #site-navigation li a {
+	line-height: 70px;
+	color: #3b3e4f;
+
+	display: block;
+	padding: 0 15px;
+	text-transform: uppercase;
+	white-space: nowrap;	
+	text-decoration: none;
+	height: inherit;
+}
+
+#header #site-navigation li a:hover{
+	color: #48afdb;	
+}

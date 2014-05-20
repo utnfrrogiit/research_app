@@ -1,0 +1,30 @@
+            <div class='container'>
+                <div class='row'>
+                    <div class='col-md-4 col-md-offset-4' >
+                        <div class='login-form'>
+
+                            <div class='header'></div>
+                            <hr>
+
+                            <fieldset>
+                                <input type='email' class='form-control' placeholder='Email' required autofocus ng-model="email" />
+                            </fieldset>
+
+                            <fieldset>
+                                <input type='password' class='form-control' placeholder='Password' required ng-model="password"/>
+                            </fieldset>
+
+                            <input class="btn btn-login" type="submit" value='Login' ng-click="Login(email, password)">
+
+                            <div class="text-center">
+                                <a href="#" ng-click='ToForgot()'>Forgot password?</a>
+                                <br>
+                                <a href="#" ng-click='ToSignUp()'>Don't have an account? <strong>Sign Up</strong></a>
+                            </div>                            
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
