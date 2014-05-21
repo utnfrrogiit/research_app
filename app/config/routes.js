@@ -6,6 +6,7 @@
  * 
  */
 
+var Response = require('../classes/Response.js');
 
 
 module.exports = function(config, app, passport){
@@ -79,18 +80,21 @@ module.exports = function(config, app, passport){
 		}
 	);
 
-
 	app.post('/login', 
 		function(req, res, next) {
 			passport.authenticate('local-login', 
-				function(err, user, info) {
+				function(err, user, errorID) {
 					
 					if (err) {
 						return next(err); 
 					}
 
 					if (!user) { 
-						res.send({success: false}); 
+
+						var responseObj = Response(true, errorID);
+						responseObj.user = null;
+
+						res.send(responseObj); 
 					}
 
 					req.logIn(user, 
@@ -99,7 +103,11 @@ module.exports = function(config, app, passport){
 			  				if (err) { 
 			  					return next(err); 
 			  				}
-			  				res.send({success: true, user: user}); 
+
+							var responseObj = Response(false, errorID);
+							responseObj.user = user;
+							  				
+			  				res.send(responseObj); 
 						}
 					);
 				}
@@ -107,7 +115,6 @@ module.exports = function(config, app, passport){
 		}
 	);
 
-	
 	app.post('/app/index/initApp', isLoggedIn, function(req, res){
 		var user = req.user;
 
@@ -124,10 +131,6 @@ module.exports = function(config, app, passport){
 		res.send({user: limitedUser});
 	});
 
-
-
-
-
 };
 
 function isLoggedIn(req, res, next) {
@@ -137,6 +140,3 @@ function isLoggedIn(req, res, next) {
 	
 	res.redirect('/');
 }
-
-
-

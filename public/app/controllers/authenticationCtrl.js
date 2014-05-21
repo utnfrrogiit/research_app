@@ -90,7 +90,7 @@ angularApp
 					.then(
 						function(response){
 							//Valido si el logueo fue exitoso sino lo envio a '/signup'
-							if(response.data.success){
+							if(!response.data.error.value){
 
 								//Inicializo el usuario en modo singleton														
 								$scope.user = User;
@@ -107,7 +107,8 @@ angularApp
 								}
 
 							} else {
-								$location.path('/signup').replace();
+								
+								
 							}
 			
 						}

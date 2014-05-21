@@ -160,12 +160,13 @@ input[type='password']{
 
 
 
+
 #header{
 	position: absolute;
 	top: 0;
 	height: 70px;
 	width: 100%;
-	background-color: #FFFFFF;
+	background-color: #2B2E33;
 }
 
 #menu{
@@ -185,7 +186,7 @@ input[type='password']{
 
 #header #site-navigation li a {
 	line-height: 70px;
-	color: #3b3e4f;
+	color: #48afdb;	
 
 	display: block;
 	padding: 0 15px;
@@ -196,5 +197,6 @@ input[type='password']{
 }
 
 #header #site-navigation li a:hover{
-	color: #48afdb;	
+	color: #DDDDDD;	
+	background-color: #000000;
 }

@@ -12,60 +12,67 @@ var User          = require("../models/user");
 
 module.exports = function(config, passport){
 
-
-    //
     passport.serializeUser(
         function(user, done) {
-            done(null, user.id);
+            if(user){
+                done(null, user._id);                
+            }
         }
     );
 
-    //
     passport.deserializeUser(
         function(id, done) {
-            User.findById(id, 
-                function(err, user) {
-                    done(err, user);
-                }
-            );
+            User.findOne({_id: id})
+                .exec(
+                    function(err,user){
+                        if(user){
+                            return done(null, user);
+                        } else {
+                            return done(null, false);
+                        }
+                    }
+                )  
         }
     );
 
-	//Registro la estrategia 'local-login' encargada del logueo en forma local
-	/**
-	 *	Modifico los valores por defectos:
-	 *		usernameField: 'username'
-	 *		passwordField: 'password'
-	 *		passReqToCallback: false
-	 */
+    //Registro la estrategia 'local-login' encargada del logueo en forma local
+    /**
+     *  Modifico los valores por defectos:
+     *      usernameField: 'username'
+     *      passwordField: 'password'
+     *      passReqToCallback: false
+     */
     passport.use('local-login', new LocalStrategy({
         usernameField : 'email',
-        passwordField : 'password',
-        passReqToCallback : true
+        passwordField : 'password'
     },
-    function(req, email, password, done) {
-    	//Busco entre los usuarios en el modelo uno que tenga local.email igual al email ingresado
-        User.findOne({ 'local.email' :  email }, 
-        	function(err, user) {
-        		//Si se produjo error devuelvo el mismo
-	            if (err)
-	                return done(err);
-
-	            //Si no se encontro el usuario devuelvo false
-	            if (!user)
-	                return done(null, false);
-
-	            //Si no es el password correcto devuelvo falso
-	            if (!user.validPassword(password))
-	                return done(null, false);
-
-	            //Si llega aca el usuario fue encontrado e ingreso la password correspondiente
-	            //por ende devuelvo el mismo
-	            return done(null, user);
-        	}
-        );
+    function(email, password, done) {
+        //Busco entre los usuarios en el modelo uno que tenga local.email igual al email ingresado
+        User.findOne({ 'local.email':  email }).exec(
+                function(err, user){
+                    if(!user){
+                        return done(null, false, 'err_1000');
+                    } else {
+                        if(!user.validPassword(password)){
+                            return done(null, false, 'err_1001');
+                        } else {
+                            return done(null, user, 'err_0');
+                        }                        
+                    }
+                }
+            );
 
     }));
+
+
+
+
+
+    
+
+    
+
+
 
 };
 
