@@ -1,4 +1,4 @@
-<html>
+<html ng-app='authenticationApp'>
     <head lang="es">
 
         <meta charset="UTF-8">
@@ -16,6 +16,9 @@
         <!-- Include Angular Route lib -->
         <script src="libs/angular-route/angular-route.js" ></script>
 
+        <!-- Include AngularJS lib -->
+        <script src="libs/angular-ui-router/release/angular-ui-router.js" ></script>
+
         <!-- Include Module logic file -->
         <script src="app/controllers/authenticationCtrl.js"></script>
 
@@ -30,11 +33,10 @@
 
 
     </head>
-    <body ng-app='authenticationApp'>
+    <body ui-view>
 
-        <div id='#page-content' ng-view>
-        </div>
+
+
 
     </body>
-
 </html>
