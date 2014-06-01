@@ -5,21 +5,12 @@
  *
  *
  */
-//require('../apuntes/models');
-//var apuntesRoutes = require('../apuntes/routes');
+
 var Response = require('../classes/Response.js');
 var jwt = require('jwt-simple')
 
 
 module.exports = function(config, app, passport){
-
-  /* Apuntes routes */
-
-/*  app.route('/apuntes')
-     .get(apuntesRoutes.list)
-     .post(apuntesRoutes.create);
-
-
 
 	/**
 	 *	Routes tipo GET
