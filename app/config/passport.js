@@ -1,21 +1,36 @@
 /**
  *	LocalStrategy	-->	(Obj)	Objeto de estategia(passport) utilizado para la autenticacion de usuarios
- * 	User 			-->	(Obj)	Modelo de dato del usuario 
- *  config			-->	(Obj)	Objeto con las diferentes configuraciones de la aplicacions	
+ * 	User 			-->	(Obj)	Modelo de dato del usuario
+ *  config			-->	(Obj)	Objeto con las diferentes configuraciones de la aplicacions
  *  passport		-->	(Obj)	Objeto con las dependencias de la libreria passport
  *  user 			-->	(Obj)	Objeto usuario
  */
 
 /* Seteo las dependencias necesarias */
+var BearerStrategy = require('passport-http-bearer').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 var User          = require("../models/user");
 
 module.exports = function(config, passport){
 
+    passport.use(new BearerStrategy( function (token, done) {
+        userid = jwt.decode(token, 'secret').userid;
+        User.findOne({ id: userid }).exec(function(error, user){
+          if (error) {
+            return done(error);
+          };
+
+          if(!user){
+            return done(null, false);
+          }
+        });
+
+    }));
+
     passport.serializeUser(
         function(user, done) {
             if(user){
-                done(null, user._id);                
+                done(null, user._id);
             }
         }
     );
@@ -31,7 +46,7 @@ module.exports = function(config, passport){
                             return done(null, false);
                         }
                     }
-                )  
+                )
         }
     );
 
@@ -57,7 +72,7 @@ module.exports = function(config, passport){
                             return done(null, false, 'err_1001');
                         } else {
                             return done(null, user, 'err_0');
-                        }                        
+                        }
                     }
                 }
             );
@@ -68,12 +83,10 @@ module.exports = function(config, passport){
 
 
 
-    
 
-    
+
+
 
 
 
 };
-
-

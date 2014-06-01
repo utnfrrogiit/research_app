@@ -3,13 +3,23 @@
  *  app 			-->	(Obj)	Objeto aplicacion
  *  passport		-->	(Obj)	Objeto con las dependencias de la libreria passport
  *
- * 
+ *
  */
-
+//require('../apuntes/models');
+//var apuntesRoutes = require('../apuntes/routes');
 var Response = require('../classes/Response.js');
+var jwt = require('jwt-simple')
 
 
 module.exports = function(config, app, passport){
+
+  /* Apuntes routes */
+
+/*  app.route('/apuntes')
+     .get(apuntesRoutes.list)
+     .post(apuntesRoutes.create);
+
+
 
 	/**
 	 *	Routes tipo GET
@@ -19,9 +29,9 @@ module.exports = function(config, app, passport){
 
 	    var dataEJS = {};
 	    res.render('authentication.ejs', dataEJS);
-	});	
+	});
 
-	app.get('/app/index', isLoggedIn, function(req, res){		
+	app.get('/app/index', isLoggedIn, function(req, res){
 		res.render("studentIndex.ejs");
 	});
 
@@ -43,12 +53,12 @@ module.exports = function(config, app, passport){
 			var lastName = req.body.lastName;
 			var email    = req.body.email;
 			var password = req.body.password;
-			
+
 			var User     = require("../models/user");
 
-			User.findOne( {'local.email': email}, 
+			User.findOne( {'local.email': email},
 				function(err, user){
-					
+
 					if(err){
 						res.send( {success:false, flag: 1, message: "Internal Server Error"} );
 					}
@@ -66,7 +76,7 @@ module.exports = function(config, app, passport){
 		                newUser.local.lastName = lastName;
 
 		                newUser.save(function(err) {
-		                    
+
 		                    if (err){
 		                        throw err;
 		                    }
@@ -80,36 +90,27 @@ module.exports = function(config, app, passport){
 		}
 	);
 
-	app.post('/login', 
+
+
+	app.post('/login',
 		function(req, res, next) {
-			passport.authenticate('local-login', 
+			passport.authenticate('local-login',
 				function(err, user, errorID) {
-					
+
 					if (err) {
-						return next(err); 
+						return next(err);
 					}
 
-					if (!user) { 
+					if (!user) {
 
-						var responseObj = Response(true, errorID);
-						responseObj.user = null;
-
-						res.send(responseObj); 
+						//Devolver error not user
+            res.json({success: false});
 					}
 
-					req.logIn(user, 
-						function(err) {
-			  				
-			  				if (err) { 
-			  					return next(err); 
-			  				}
+					//Generar y devolver token
+          var token = jwt.encode({userid: user.id}, 'secret');
+          res.json({userid: user.id, access_token: token});
 
-							var responseObj = Response(false, errorID);
-							responseObj.user = user;
-							  				
-			  				res.send(responseObj); 
-						}
-					);
 				}
 			)(req, res, next);
 		}
@@ -137,6 +138,6 @@ function isLoggedIn(req, res, next) {
 
 	if (req.isAuthenticated())
 		return next();
-	
+
 	res.redirect('/');
 }
