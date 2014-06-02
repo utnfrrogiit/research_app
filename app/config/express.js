@@ -20,10 +20,9 @@ module.exports = function(config, app, passport, express){
 	app.use(cookieParser());
 	app.use(bodyParser());
 	
-	app.set('view engine', 'ejs');
-
+	app.engine('html', require('ejs').renderFile);
+	app.set('view engine', 'html');
 	app.set('views', config.rootPath + '/public/app/views');
-	
 	app.set('view options', { layout:false, root: config.rootPath + '/public/app/views' } );
 
 	app.use(express.static(config.rootPath + '/public'));

@@ -15,20 +15,21 @@ module.exports = function(config, app, passport){
 	 *	Routes tipo GET
 	 */
 
+/*
 	app.get('/authentication', function(req, res){
-
-	    var dataEJS = {};
-	    res.render('authentication.ejs', dataEJS);
+	    res.render('authentication.html');
 	});	
 
 	app.get('/app/index', isLoggedIn, function(req, res){		
-		res.render("studentIndex.ejs");
+		res.render("studentIndex.html");
 	});
+
+*/
 
 
 	app.get('*', function(req, res){
-		var dataEJS = {};
-		res.render("authentication.ejs", dataEJS);
+		//res.render("authentication.html");
+		res.render("index.html");
 	});
 
 
