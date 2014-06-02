@@ -9,7 +9,7 @@
 /* Seteo las dependencias necesarias */
 var BearerStrategy = require('passport-http-bearer').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
-var User          = require("../models/user");
+var User = require('mongoose').model('User');
 
 module.exports = function(config, passport){
 
@@ -27,29 +27,6 @@ module.exports = function(config, passport){
 
     }));
 
-    passport.serializeUser(
-        function(user, done) {
-            if(user){
-                done(null, user._id);
-            }
-        }
-    );
-
-    passport.deserializeUser(
-        function(id, done) {
-            User.findOne({_id: id})
-                .exec(
-                    function(err,user){
-                        if(user){
-                            return done(null, user);
-                        } else {
-                            return done(null, false);
-                        }
-                    }
-                )
-        }
-    );
-
     //Registro la estrategia 'local-login' encargada del logueo en forma local
     /**
      *  Modifico los valores por defectos:
@@ -62,8 +39,8 @@ module.exports = function(config, passport){
         passwordField : 'password'
     },
     function(email, password, done) {
-        //Busco entre los usuarios en el modelo uno que tenga local.email igual al email ingresado
-        User.findOne({ 'local.email':  email }).exec(
+        //Busco entre los usuarios en el modelo uno que tenga email igual al email ingresado
+        User.findOne({ email:  email }).exec(
                 function(err, user){
                     if(!user){
                         return done(null, false, 'err_1000');

@@ -1,6 +1,6 @@
 /**
  * 	environment	-->	(Str)	Variable de entorno de ejecucion
- *  express		-->	(Obj)	Objeto con las dependencias de la libreria express    
+ *  express		-->	(Obj)	Objeto con las dependencias de la libreria express
  *  mongoose	-->	(Obj)	Objeto con las dependencias de la libreria mongoose
  *  passport	-->	(Obj)	Objeto con las dependencias de la libreria passport
  *  app 		-->	(Obj)	Objeto aplicacion
@@ -31,7 +31,7 @@ require('./app/config/passport.js')
 require('./app/config/express.js')
 	(config, app, passport, express);
 
-require('./app/config/routes.js')
+require('./app/authentication/routes.js')
 	(config, app, passport);
 
 //Inicio la aplicacion

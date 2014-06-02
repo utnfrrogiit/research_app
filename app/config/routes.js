@@ -8,9 +8,24 @@
 
 var Response = require('../classes/Response.js');
 var jwt = require('jwt-simple')
+var authRoutes = require('../authentication/routes')
 
 
 module.exports = function(config, app, passport){
+
+  /** AUTH ROUTES **/
+
+  require('../authentication/routes')(config, app, passport)
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 *	Routes tipo GET
@@ -47,7 +62,7 @@ module.exports = function(config, app, passport){
 
 			var User     = require("../models/user");
 
-			User.findOne( {'local.email': email},
+			User.findOne( {'email': email},
 				function(err, user){
 
 					if(err){

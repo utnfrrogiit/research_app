@@ -14,14 +14,12 @@ module.exports = function(config, mongoose){
 	//Muesto los logs por consola
 	db.on('error', console.error.bind(console, "Connection error"));
 
-	db.once('open', 
+	db.once('open',
 		function callback(){
 			console.log('Connection to db opened');
 		}
 	);
 
+  // Compile models
+  require('../authentication/models');
 }
-
-
-
-
