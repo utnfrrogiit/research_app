@@ -48,10 +48,7 @@ module.exports = function (config, app, passport) {
 
   app.route('/users/:id')
      // Get user
-     .get(passport.authenticate('bearer', {'session': false}), function (request, response) {
-
-      console.log('El token (Segun bearer) es de', request.user.firstName);
-      
+     .get(function (request, response) {
        User.findOne({_id: request.params.id}, function(error, user){
          if(!error){
            response.json(user);
