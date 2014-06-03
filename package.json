@@ -38,6 +38,5 @@
     "bcrypt-nodejs": "0.0.3",
     "ejs": "^1.0.0",
     "passport-http-bearer": "*",
-    "jwt-simple": "*"
   }
 }

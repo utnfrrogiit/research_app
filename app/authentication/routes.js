@@ -1,6 +1,5 @@
 require('./models');
 mongoose = require('mongoose');
-jwt = require('jwt-simple');
 
 User = mongoose.model('User');
 
@@ -15,8 +14,11 @@ module.exports = function (config, app, passport) {
         return response.json({success: false});
       }
       //Generar y devolver token
-      var token = jwt.encode({userid: user.id}, 'secret');
-      return response.json({userid: user.id, access_token: token});
+      user.generateTokenAndSave(function(error, token){
+        if (!error){
+          response.json({userid: user.id, access_token: token});
+        }
+      });
     })(request, response, next);
   });
 
@@ -36,8 +38,9 @@ module.exports = function (config, app, passport) {
        user.password = user.generateHash(request.body.password);
        user.save(function (error, user){
          if (!error) {
-           var token = jwt.encode({userid: user.id}, 'secret');
-           response.json(201, {userid: user.id, token: token});
+           user.generateTokenAndSave(function(error, token){
+             response.json(201, {userid: user.id, access_token: token});
+           })
          }
        })
      });
@@ -45,7 +48,10 @@ module.exports = function (config, app, passport) {
 
   app.route('/users/:id')
      // Get user
-     .get(function (request, response) {
+     .get(passport.authenticate('bearer', {'session': false}), function (request, response) {
+
+      console.log('El token (Segun bearer) es de', request.user.firstName);
+      
        User.findOne({_id: request.params.id}, function(error, user){
          if(!error){
            response.json(user);
