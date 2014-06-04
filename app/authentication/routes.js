@@ -65,12 +65,14 @@ module.exports = function (config, app, passport) {
      // Get user
      .get(function (request, response, next) {
        User.findOne({_id: request.params.id}, function(error, user){
-         if(!error){
-           response.json(user);
+         if(error){
+           return next(error);
          }
-         else {
-           next(error);
+
+         if (!user) {
+           return response.send(404);
          }
+         response.json(user);
        })
      })
 
