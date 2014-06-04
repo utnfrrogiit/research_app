@@ -16,8 +16,19 @@ module.exports = function (request, response, next) {
   else {
     User.findByToken(auth_token, function(error, user){
       if (user) {
-        request.user = user;
-        next();
+
+        //Actualizar lastUsed del token
+        for (var i = 0; i < user.tokens.length; i++) {
+          if (user.tokens[i].token === auth_token) {
+            user.tokens[i].lastUsed = Date.now();
+            user.save(function(error){
+              request.user = user;
+              next();
+              return;
+            })
+          }
+        }
+
       }
       else {
         response.send(401); // HTTP Code for Unauthorized
