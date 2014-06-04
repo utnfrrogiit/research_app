@@ -1,11 +1,17 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
+var uniqueValidator = require('mongoose-unique-validator');
 
 var userSchema = mongoose.Schema({
     firstName: String,
     lastName: String,
-    email: String,
-    password: String,
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/
+    },
+    password: {type: String, required: true},
     userType: String,
     tokens: [
       {
@@ -15,6 +21,7 @@ var userSchema = mongoose.Schema({
     ]
 });
 
+userSchema.plugin(uniqueValidator, { message: 'Error, expected {PATH} to be unique.' });
 
 userSchema.statics.findByToken = function(token, cb){
   this.findOne({'tokens.token': token}, cb);

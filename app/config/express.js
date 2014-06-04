@@ -14,7 +14,6 @@
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var tokenAuthMiddleware = require('../authentication/middleware')
-var errorHandling = require('./errorHandling')
 
 module.exports = function(config, app, passport, express){
 
@@ -31,6 +30,5 @@ module.exports = function(config, app, passport, express){
 
 	app.use(passport.initialize());
 	app.use(tokenAuthMiddleware);
-	app.use(errorHandling);
 
 }

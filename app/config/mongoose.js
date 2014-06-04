@@ -12,7 +12,7 @@ module.exports = function(config, mongoose){
 	var db = mongoose.connection;
 
 	//Muesto los logs por consola
-	db.on('error', console.error.bind(console, "Connection error"));
+	// db.on('error', console.error.bind(console, "Connection error"));
 
 	db.once('open',
 		function callback(){

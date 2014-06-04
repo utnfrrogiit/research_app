@@ -31,7 +31,7 @@ module.exports = function (config, app, passport) {
 
   app.route('/users')
       // Get users
-     .get(function (request, response) {
+     .get(function (request, response, next) {
        User.find({}, function(error, users) {
          if (!error) {
            response.json(users);
@@ -43,9 +43,11 @@ module.exports = function (config, app, passport) {
      })
 
      // Create User
-     .post(function (request, response) {
+     .post(function (request, response, next) {
        var user = new User(request.body);
-       user.password = user.generateHash(request.body.password);
+       if (user.password) {
+         user.password = user.generateHash(request.body.password);
+       }
        user.save(function (error, user){
          if (!error) {
            user.generateTokenAndSave(function(error, token){
@@ -61,7 +63,7 @@ module.exports = function (config, app, passport) {
 
   app.route('/users/:id')
      // Get user
-     .get(function (request, response) {
+     .get(function (request, response, next) {
        User.findOne({_id: request.params.id}, function(error, user){
          if(!error){
            response.json(user);
@@ -73,7 +75,7 @@ module.exports = function (config, app, passport) {
      })
 
      // Update user
-     .put(function (request, response) {
+     .put(function (request, response, next) {
        User.findByIdAndUpdate(request.params.id, request.body, {}, function(error, user){
          if(!error){
            response.send(200);

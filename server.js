@@ -15,6 +15,7 @@ var config      = require('./app/config/config.js')[environment];
 var express     = require('express');
 var mongoose    = require('mongoose');
 var passport    = require('passport');
+var errorHandling = require('./app/config/errorHandling');
 
 //Inicializo el objeto App
 var app         = express();
@@ -33,6 +34,8 @@ require('./app/config/express.js')
 
 require('./app/authentication/routes.js')
 	(config, app, passport);
+
+app.use(errorHandling);
 
 //Inicio la aplicacion
 app.listen(config.port);
