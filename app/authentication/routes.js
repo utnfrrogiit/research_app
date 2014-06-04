@@ -1,17 +1,21 @@
 require('./models');
-mongoose = require('mongoose');
+var mongoose = require('mongoose');
+var handleError = require('../config/errorHandling');
 
-User = mongoose.model('User');
+var authError = Error('Unauthorized');
+authError.name = 'authError';
+
+var User = mongoose.model('User');
 
 module.exports = function (config, app, passport) {
   app.post('/authenticate', function (request, response, next) {
     passport.authenticate('local-login', function (error, user) {
       if (error) {
-        return response.send(500);
+        return next(error);
       }
       if (!user) {
         //Devolver error not user
-        return response.send(401);
+        return next(authError);
       }
       //Generar y devolver token
       user.generateTokenAndSave(function(error, token){
@@ -19,7 +23,7 @@ module.exports = function (config, app, passport) {
           response.json({userid: user.id, access_token: token});
         }
         else{
-          response.send(500);
+          next(error);
         }
       });
     })(request, response, next);
@@ -33,7 +37,7 @@ module.exports = function (config, app, passport) {
            response.json(users);
          }
          else {
-           response.send(500);
+           next(error);
          }
        })
      })
@@ -49,7 +53,7 @@ module.exports = function (config, app, passport) {
            })
          }
          else {
-           error.send(500);
+           next(error);
          }
        })
      });
@@ -63,7 +67,7 @@ module.exports = function (config, app, passport) {
            response.json(user);
          }
          else {
-           response.send(500);
+           next(error);
          }
        })
      })
@@ -75,7 +79,7 @@ module.exports = function (config, app, passport) {
            response.send(200);
          }
          else{
-           response.send(500);
+           next(error);
          }
        })
      })
