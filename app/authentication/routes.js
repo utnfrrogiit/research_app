@@ -89,14 +89,19 @@ module.exports = function (config, app, passport) {
      })
 
      .delete(function (request, response, next) {
-       User.remove({_id: request.params.id}, function(error, user){
-         if (!error) {
-           response.send(200);
-         }
-         else {
-           next(error);
-         }
-       })
+       if (request.user && request.user._id.equals(request.params.id)) {
+         User.remove({_id: request.params.id}, function(error, user){
+           if (!error) {
+             response.send(200);
+           }
+           else {
+             next(error);
+           }
+         })
+      }
+      else {
+        response.send(401);
+      }
      })
 
 
