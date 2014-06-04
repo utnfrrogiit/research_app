@@ -78,7 +78,7 @@ module.exports = function (config, app, passport) {
 
      // Update user
      .put(function (request, response, next) {
-       User.findByIdAndUpdate(request.params.id, request.body, {}, function(error, user){
+       User.findByIdAndUpdateUser(request.params.id, request.body, {}, function(error, user){
          if(!error){
            response.send(200);
          }

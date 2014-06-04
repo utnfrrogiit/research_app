@@ -23,11 +23,20 @@ var userSchema = mongoose.Schema({
 
 userSchema.plugin(uniqueValidator, { message: 'Error, expected {PATH} to be unique.' });
 
+userSchema.statics.findByIdAndUpdateUser = function(id, data, options, cb){
+  console.log(data);
+  if (data.password) {
+    data.password = this.generateHash(data.password);
+    console.log(data.password);
+  }
+  this.findByIdAndUpdate(id, data, options, cb);
+}
+
 userSchema.statics.findByToken = function(token, cb){
   this.findOne({'tokens.token': token}, cb);
 }
 
-userSchema.methods.generateHash = function(str){
+userSchema.statics.generateHash = function(str){
   return bcrypt.hashSync(str, bcrypt.genSaltSync(8), null);
 };
 
