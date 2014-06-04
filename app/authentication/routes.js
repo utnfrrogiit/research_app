@@ -8,7 +8,7 @@ authError.name = 'authError';
 var User = mongoose.model('User');
 
 module.exports = function (config, app, passport) {
-  app.post('/authenticate', function (request, response, next) {
+  app.post('/users/authenticate', function (request, response, next) {
     passport.authenticate('local-login', function (error, user) {
       if (error) {
         return next(error);
