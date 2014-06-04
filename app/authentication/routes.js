@@ -78,14 +78,19 @@ module.exports = function (config, app, passport) {
 
      // Update user
      .put(function (request, response, next) {
-       User.findByIdAndUpdateUser(request.params.id, request.body, {}, function(error, user){
-         if(!error){
-           response.send(200);
-         }
-         else{
-           next(error);
-         }
-       })
+       if (request.user && request.user._id.equals(request.params.id)) {
+         User.findByIdAndUpdateUser(request.params.id, request.body, {}, function(error, user){
+           if(!error){
+             response.send(200);
+           }
+           else{
+             next(error);
+           }
+         })
+      }
+      else {
+        response.send(401);
+      }
      })
 
      .delete(function (request, response, next) {
