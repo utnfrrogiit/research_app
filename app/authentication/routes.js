@@ -32,7 +32,8 @@ module.exports = function (config, app, passport) {
   app.route('/users')
       // Get users
      .get(function (request, response, next) {
-       User.find({}, function(error, users) {
+       var fields = 'firstName lastName';
+       User.find({}, fields, {lean: true}, function(error, users) {
          if (!error) {
            response.json(users);
          }
