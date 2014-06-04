@@ -64,7 +64,15 @@ module.exports = function (config, app, passport) {
   app.route('/users/:id')
      // Get user
      .get(function (request, response, next) {
-       User.findOne({_id: request.params.id}, function(error, user){
+
+       if (request.user && request.user._id.equals(request.params.id)) {
+         var fields = 'firstName lastName email'
+       }
+       else {
+         var fields = 'firstName lastName'
+       }
+
+       User.findOne({_id: request.params.id}, fields, {lean: true}, function(error, user){
          if(error){
            return next(error);
          }

@@ -36,9 +36,12 @@ userSchema.statics.findByToken = function(token, cb){
   this.findOne({'tokens.token': token}, cb);
 }
 
-userSchema.statics.generateHash = function(str){
+var generateHash = function (str) {
   return bcrypt.hashSync(str, bcrypt.genSaltSync(8), null);
 };
+
+userSchema.methods.generateHash = generateHash;
+userSchema.statics.generateHash = generateHash;
 
 userSchema.methods.validPassword = function(password){
   return bcrypt.compareSync(password, this.password);

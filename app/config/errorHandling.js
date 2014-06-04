@@ -9,6 +9,7 @@ module.exports = function (error, request, response, next) {
   }
 
   else {
+    console.log(error.stack);
     response.json(500, error);
   }
 }
