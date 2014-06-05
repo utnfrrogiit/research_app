@@ -1,14 +1,14 @@
 require('./models');
-var mongoose = require('mongoose');
 var handleError = require('../config/errorHandling');
 
 var authError = Error('Unauthorized');
 authError.name = 'authError';
 
-var User = mongoose.model('User');
+var User = require('mongoose').model('User');
 
-module.exports = function (config, app, passport) {
-  app.post('/users/authenticate', function (request, response, next) {
+module.exports = function (config, passport) {
+  var api = require('express').Router();
+  api.post('/users/authenticate', function (request, response, next) {
     passport.authenticate('local-login', function (error, user) {
       if (error) {
         return next(error);
@@ -29,7 +29,7 @@ module.exports = function (config, app, passport) {
     })(request, response, next);
   });
 
-  app.route('/users')
+  api.route('/users')
       // Get users
      .get(function (request, response, next) {
        var fields = 'firstName lastName';
@@ -62,7 +62,7 @@ module.exports = function (config, app, passport) {
      });
      // Put y delete no tienen sentido para /users
 
-  app.route('/users/:id')
+  api.route('/users/:id')
      // Get user
      .get(function (request, response, next) {
 
@@ -118,5 +118,5 @@ module.exports = function (config, app, passport) {
       }
      })
 
-
+  return api;
 }

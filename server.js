@@ -43,9 +43,11 @@ app.use(passport.initialize());
 var tokenAuthMiddleware = require('./app/authentication/middleware')
 app.use(tokenAuthMiddleware);
 
-// Routes imports
-require('./app/authentication/routes.js')
-	(config, app, passport);
+// ROUTES
+
+// API
+var api = require('./app/authentication/routes.js')(config, passport);
+app.use('/api', api);
 
 
 app.use(errorHandling);
