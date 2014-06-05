@@ -17,6 +17,9 @@ var mongoose    = require('mongoose');
 var passport    = require('passport');
 var errorHandling = require('./app/config/errorHandling');
 
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+
 //Inicializo el objeto App
 var app         = express();
 
@@ -29,8 +32,24 @@ require('./app/config/mongoose.js')
 require('./app/config/passport.js')
 	(config, passport);
 
-require('./app/config/express.js')
-	(config, app, passport, express);
+// Start lo que solia ser express.js
+app.use(cookieParser());
+app.use(bodyParser());
+
+app.set('view engine', 'ejs');
+
+app.set('views', config.rootPath + '/public/app/views');
+
+app.set('view options', { layout:false, root: config.rootPath + '/public/app/views' } );
+
+app.use(express.static(config.rootPath + '/public'));
+
+app.use(passport.initialize());
+
+var tokenAuthMiddleware = require('./app/authentication/middleware')
+app.use(tokenAuthMiddleware);
+
+//End lo que solia ser express.js
 
 require('./app/authentication/routes.js')
 	(config, app, passport);
