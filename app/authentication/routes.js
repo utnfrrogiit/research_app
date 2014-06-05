@@ -1,9 +1,6 @@
 var passport = require('../config/passport');
 var config = require('../config/config');
 
-var authError = Error('Unauthorized');
-authError.name = 'authError';
-
 var User = require('mongoose').model('User');
 
 var api = require('express').Router();
@@ -14,7 +11,7 @@ api.post('/users/authenticate', function (request, response, next) {
     }
     if (!user) {
       //Devolver error not user
-      return next(authError);
+      return response.send(401);
     }
     //Generar y devolver token
     user.generateTokenAndSave(function(error, token){

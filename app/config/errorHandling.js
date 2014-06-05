@@ -1,11 +1,10 @@
 module.exports = function (error, request, response, next) {
 
-  if (error.name === 'authError') {
-    response.send(401);
-  }
-
   if (error.name === 'ValidationError') {
-    response.json(500, error.errors);
+    response.json(400, {
+        error: 'ValidationError',
+        errors: error.errors
+    });
   }
 
   else {

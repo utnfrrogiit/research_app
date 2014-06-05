@@ -15,8 +15,7 @@ app.use(bodyParser());
 
 // Auth middleware
 app.use(passport.initialize());
-var tokenAuthMiddleware = require('./app/authentication/middleware')
-app.use(tokenAuthMiddleware);
+app.use(require('./app/authentication/middleware'));
 
 // ROUTES
 
@@ -24,9 +23,10 @@ app.use(tokenAuthMiddleware);
 var api = require('./app/authentication/routes.js');
 app.use('/api', api);
 
-// STATIC
+// Static
 app.use(express.static(config.rootPath + '/public'));
 
+// Error Middleware
 app.use(errorHandling);
 
 // Run
