@@ -16,8 +16,6 @@ var express     = require('express');
 var mongoose    = require('mongoose');
 var passport    = require('passport');
 var errorHandling = require('./app/config/errorHandling');
-
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 //Inicializo el objeto App
@@ -33,7 +31,6 @@ require('./app/config/passport.js')
 	(config, passport);
 
 // Start lo que solia ser express.js
-app.use(cookieParser());
 app.use(bodyParser());
 
 app.set('view engine', 'ejs');
