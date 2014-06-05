@@ -13,12 +13,6 @@ var app = express();
 
 app.use(bodyParser());
 
-// Render engine. Pronto a volar.
-app.set('view engine', 'ejs');
-app.set('views', config.rootPath + '/public/app/views');
-app.set('view options', { layout:false, root: config.rootPath + '/public/app/views' } );
-app.use(express.static(config.rootPath + '/public'));
-
 // Auth middleware
 app.use(passport.initialize());
 var tokenAuthMiddleware = require('./app/authentication/middleware')
@@ -30,6 +24,8 @@ app.use(tokenAuthMiddleware);
 var api = require('./app/authentication/routes.js');
 app.use('/api', api);
 
+// STATIC
+app.use(express.static(config.rootPath + '/public'));
 
 app.use(errorHandling);
 
