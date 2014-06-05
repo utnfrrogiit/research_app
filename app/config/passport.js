@@ -1,7 +1,7 @@
+var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('mongoose').model('User');
 
-module.exports = function(config, passport){
     /* local-login Strategy for email-password authentication */
     passport.use('local-login', new LocalStrategy({
         usernameField : 'email',
@@ -24,14 +24,4 @@ module.exports = function(config, passport){
 
     }));
 
-
-
-
-
-
-
-
-
-
-
-};
+module.exports = passport;

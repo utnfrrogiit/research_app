@@ -1,34 +1,15 @@
-/**
- * 	environment	-->	(Str)	Variable de entorno de ejecucion
- *  express		-->	(Obj)	Objeto con las dependencias de la libreria express
- *  mongoose	-->	(Obj)	Objeto con las dependencias de la libreria mongoose
- *  passport	-->	(Obj)	Objeto con las dependencias de la libreria passport
- *  app 		-->	(Obj)	Objeto aplicacion
- *  config		-->	(Obj)	Objeto con las diferentes configuraciones de la aplicacions
- */
-
-//Seteo la variable environment
-var environment = 'development';
-
 // Dependencias
-var config      = require('./app/config/config.js')[environment];
-var express     = require('express');
-var mongoose    = require('mongoose');
-var passport    = require('passport');
+var express = require('express');
 var errorHandling = require('./app/config/errorHandling');
 var bodyParser = require('body-parser');
 
+// Configuración.
+// Mongoose y Passport ya están configurados.
+var config = require('./app/config/config.js');
+var mongoose = require('./app/config/mongoose.js');
+var passport = require('./app/config/passport.js');
+
 var app = express();
-
-
-
-// Configuración
-require('./app/config/mongoose.js')
-	(config, mongoose);
-
-require('./app/config/passport.js')
-	(config, passport);
-
 
 app.use(bodyParser());
 
@@ -46,7 +27,7 @@ app.use(tokenAuthMiddleware);
 // ROUTES
 
 // API
-var api = require('./app/authentication/routes.js')(config, passport);
+var api = require('./app/authentication/routes.js');
 app.use('/api', api);
 
 
@@ -54,4 +35,4 @@ app.use(errorHandling);
 
 // Run
 app.listen(config.port);
-console.log('Listening at '+ config.port+ " " + environment);
+console.log('Listening at '+ config.port+ " " + config.runningEnvironment);
