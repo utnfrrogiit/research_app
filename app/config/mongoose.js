@@ -1,27 +1,24 @@
-/**
- *  mongoose	-->	(Obj)	Objeto con las dependencias de la libreria mongoose
- *  db			-->	(Obj)	Objeto conexion de la base de datos
- */
+var mongoose = require('mongoose');
+//Conecto a la base de datos mediante el connectionString del objeto config
+mongoose.connect(require('./config').db);
 
-module.exports = function(config, mongoose){
+//Seteo el objeto de conexion
+var db = mongoose.connection;
 
-	//Conecto a la base de datos mediante el connectionString del objeto config
-	mongoose.connect(config.db);
+//Muesto los logs por consola
+db.on('error', console.error.bind(console, "Connection error"));
 
-	//Seteo el objeto de conexion
-	var db = mongoose.connection;
+db.once('open',
+	function callback(){
+		console.log('Connection to db opened');
+	}
+);
 
-	//Muesto los logs por consola
-	db.on('error', console.error.bind(console, "Connection error"));
+/* Compile models. Acá hay que ir ejecutando los scripts
+ models.js para que se vayan compilando los modelos a una
+instancia temprana de inicio del server, para que luego
+todas las partes de la aplicación que requieran los modelos
+puedan usarlos tranquilas. */
+require('../authentication/models');
 
-	db.once('open', 
-		function callback(){
-			console.log('Connection to db opened');
-		}
-	);
-
-}
-
-
-
-
+module.exports = mongoose;

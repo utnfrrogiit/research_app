@@ -1,41 +1,34 @@
-/**
- * 	environment	-->	(Str)	Variable de entorno de ejecucion
- *  express		-->	(Obj)	Objeto con las dependencias de la libreria express    
- *  mongoose	-->	(Obj)	Objeto con las dependencias de la libreria mongoose
- *  passport	-->	(Obj)	Objeto con las dependencias de la libreria passport
- *  app 		-->	(Obj)	Objeto aplicacion
- *  config		-->	(Obj)	Objeto con las diferentes configuraciones de la aplicacions
- */
+// Dependencias
+var express = require('express');
+var errorHandling = require('./app/config/errorHandling');
+var bodyParser = require('body-parser');
 
-//Seteo la variable environment
-var environment = 'development';
+// Configuración.
+// Mongoose y Passport ya están configurados.
+var config = require('./app/config/config.js');
+var mongoose = require('./app/config/mongoose.js');
+var passport = require('./app/config/passport.js');
 
-/* Cargo dependencias necesarias */
-var config      = require('./app/config/config.js')[environment];
-var express     = require('express');
-var mongoose    = require('mongoose');
-var passport    = require('passport');
+var app = express();
 
-//Inicializo el objeto App
-var app         = express();
+app.use(bodyParser());
 
+// Auth middleware
+app.use(passport.initialize());
+app.use(require('./app/authentication/middleware'));
 
+// ROUTES
 
-//Ejecuto los scripts necesarios
-require('./app/config/mongoose.js')
-	(config, mongoose);
+// API
+var api = require('./app/authentication/routes.js');
+app.use('/api', api);
 
-require('./app/config/passport.js')
-	(config, passport);
+// Static
+app.use(express.static(config.rootPath + '/public'));
 
-require('./app/config/express.js')
-	(config, app, passport, express);
+// Error Middleware
+app.use(errorHandling);
 
-require('./app/config/routes.js')
-	(config, app, passport);
-
-//Inicio la aplicacion
+// Run
 app.listen(config.port);
-
-//Muestro estado de la aplicacion por consola
-console.log('Listening at '+ config.port+ " " + environment);
+console.log('Listening at '+ config.port+ " " + config.runningEnvironment);
