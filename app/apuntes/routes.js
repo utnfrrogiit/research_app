@@ -5,6 +5,14 @@ var router = require('express').Router();
 router.route('/apuntes')
   .get(function(request, response, next){
     // Get apuntes
+    var apuntes = Apunte.find({}, function(error, apuntes){
+      if (!error) {
+        response.json(apuntes);
+      }
+      else {
+        next(error);
+      }
+    });
   })
 
   .post(function(request, response, next){
