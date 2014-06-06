@@ -20,5 +20,6 @@ instancia temprana de inicio del server, para que luego
 todas las partes de la aplicación que requieran los modelos
 puedan usarlos tranquilas. */
 require('../authentication/models');
+require('../apuntes/models');
 
 module.exports = mongoose;

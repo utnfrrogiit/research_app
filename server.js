@@ -20,7 +20,11 @@ app.use(require('./app/authentication/middleware'));
 // ROUTES
 
 // API
-var api = require('./app/authentication/routes.js');
+var api = express.Router();
+
+api.use(require('./app/authentication/routes.js'));
+api.use(require('./app/apuntes/routes.js'));
+
 app.use('/api', api);
 
 // Static
