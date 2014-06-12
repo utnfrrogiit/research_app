@@ -1,6 +1,13 @@
 research_app
 ============
 
+# Gulp Tasks
+
+Todas las tareas se corren ejecutando `gulp <taskname>` en en el directorio root del proyecto.
+
+* **lint**: Analiza todos los .js existentes en el proyecto con jshint y reporta un informe.
+* **develop**: Corre el servidor (`node server.js`) y lo recarga al cambiar un archivo.
+
 La aplicacion no esta 100% funcional lo que esta hecho, por ejemplo no esta contemplado aun la falla del logueo y faltan interacciones de informacion en
 caso de errores con el cliente. Igualmente esta funcional y se pueden loguear y demas
 
@@ -15,5 +22,3 @@ Ejecutar:
 4° Configurar el package.json con la ruta de ejecucion de mongod.exe para ejecutar el servicio de mongodb
 
 5° npm start --Ejecuta aplicacion y la base de datos
-
-
