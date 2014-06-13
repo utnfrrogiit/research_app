@@ -1,5 +1,6 @@
 var Apunte = require('mongoose').model('Apunte');
-
+var fs = require('fs');
+var path = require('path');
 var router = require('express').Router();
 
 router.route('/apuntes')
@@ -16,8 +17,18 @@ router.route('/apuntes')
   })
 
   .post(function(request, response, next){
+    var tempPath = request.files.file.path;
+    var newPath = path.join('uploads/apuntes/', request.files.file.name);
+
+    fs.rename(tempPath, newPath, function(error){
+      if (error) {
+        next(error);
+      }
+    });
+
     // Create apunte
     var apunte = new Apunte(request.body);
+    apunte.filePath = newPath;
     apunte.save(function(error, apunte){
       if (!error) {
         response.json({id: apunte.id});

@@ -2,6 +2,7 @@
 var express = require('express');
 var errorHandling = require('./app/config/errorHandling');
 var bodyParser = require('body-parser');
+var multer = require('multer');
 
 // Configuración.
 // Mongoose y Passport ya están configurados.
@@ -12,6 +13,8 @@ var passport = require('./app/config/passport.js');
 var app = express();
 
 app.use(bodyParser());
+
+app.use(multer({dest: '/var/tmp'}));
 
 // Auth middleware
 app.use(passport.initialize());
@@ -28,6 +31,7 @@ api.use(require('./app/apuntes/routes.js'));
 app.use('/api', api);
 
 // Static
+app.use('/uploads/', express.static(config.rootPath + '/uploads'));
 app.use(express.static(config.rootPath + '/public'));
 
 // Error Middleware

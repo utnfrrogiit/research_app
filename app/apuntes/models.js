@@ -11,7 +11,8 @@ var apunteSchema = new mongoose.Schema({
   categorias: [{type: mongoose.Schema.Types.ObjectId, ref: 'Categoria'}],
   filePath: String,
   previewImagePath: String,
-  uploadDate: Date
+  uploadDate: Date,
+  owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 
 mongoose.model('Apunte', apunteSchema);
