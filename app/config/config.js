@@ -21,7 +21,7 @@ var config = {
         runningEnvironment: 'production',
         rootPath: rootPath,
         db: "mongodb://localhost/research_app_prod",
-        port: "8080"
+        port: "8000"
     },
     development: {
         runningEnvironment: 'development',
