@@ -1,4 +1,5 @@
 var Apunte = require('mongoose').model('Apunte');
+var Categoria = require('mongoose').model('Categoria');
 var fs = require('fs');
 var path = require('path');
 var router = require('express').Router();
@@ -96,5 +97,91 @@ router.route('/apuntes/:id')
       }
     })
   })
+
+router.route('/categorias')
+
+  .get(function(request, response, next){
+    // Por ahora sólo devuelve las top level.
+    var mq = request.mongooseQuery;
+    Categoria.find(mq.query, mq.fields, mq.options, function(error, categorias){
+      if (!error) {
+        response.json(categorias);
+      }
+      else {
+        next(error);
+      }
+    })
+  })
+
+  .post(function(request, response, next){
+    if( !request.user ) return response.send(401);
+
+    var categoria = new Categoria(request.body);
+    categoria.save(function(error, categoria){
+      if (error) {
+        return next(error);
+      }
+      else {
+        response.json({id: categoria.id})
+      }
+    })
+  })
+
+router.route('/categorias/:id')
+
+  .get(function(request, response, next){
+    Categoria.findById(request.params.id, "-parent", {lean: true}, function(error, categoria){
+      if (error) {
+        next(error);
+      }
+      if (!categoria) {
+        return response.send(404);
+      }
+      else {
+        Categoria.find({parent: request.params.id}, "-parent", {lean: true}, function(eror, childs){
+          if (!error){
+            categoria.childs = childs;
+            console.log(childs);
+            response.json(categoria);
+          }
+          else {
+            next(error);
+          }
+        })
+      }
+    })
+  })
+
+  .put(function(request, response, next){
+    if( !request.user ) return response.send(401);
+
+    Categoria.findByIdAndUpdate(request.params.id, request.body, null, function(error, categoria){
+      if (error) {
+        return next(error);
+      }
+      if (!categoria) {
+        response.send(404);
+      }
+      else {
+        response.send(200);
+      }
+    })
+  })
+
+  .delete(function(request, response, next){
+    if( !request.user ) return response.send(401);
+
+    Categoria.findByIdAndRemove(request.params.id, function(error, categoria){
+      if (error) {
+        return next(error);
+      }
+      if (!categoria) {
+        response.send(404);
+      }
+      else {
+        response.send(200);
+      }
+    })
+  });
 
 module.exports = router;
