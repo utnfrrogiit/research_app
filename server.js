@@ -13,12 +13,13 @@ var passport = require('./app/config/passport.js');
 var app = express();
 
 app.use(bodyParser());
-
 app.use(multer({dest: '/var/tmp'}));
 
 // Auth middleware
 app.use(passport.initialize());
 app.use(require('./app/authentication/middleware'));
+
+app.use(require('./app/middleware/mongooseQuery.js'))
 
 // ROUTES
 

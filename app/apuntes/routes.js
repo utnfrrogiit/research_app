@@ -5,8 +5,9 @@ var router = require('express').Router();
 
 router.route('/apuntes')
   .get(function(request, response, next){
-    // Get apuntes
-    var apuntes = Apunte.find({}, function(error, apuntes){
+    var mq = request.mongooseQuery;
+
+    Apunte.find(mq.query, mq.fields, mq.options, function(error, apuntes){
       if (!error) {
         response.json(apuntes);
       }
@@ -17,18 +18,27 @@ router.route('/apuntes')
   })
 
   .post(function(request, response, next){
+
+    if ( !request.user ) return response.send(401);
+
+    // Save File
     var tempPath = request.files.file.path;
     var newPath = path.join('uploads/apuntes/', request.files.file.name);
 
     fs.rename(tempPath, newPath, function(error){
       if (error) {
-        next(error);
+        return next(error);
       }
     });
 
     // Create apunte
     var apunte = new Apunte(request.body);
     apunte.filePath = newPath;
+
+    // Set owner
+    apunte.owner = request.user._id;
+
+    // Save to DB
     apunte.save(function(error, apunte){
       if (!error) {
         response.json({id: apunte.id});
@@ -41,8 +51,10 @@ router.route('/apuntes')
 
 router.route('/apuntes/:id')
   .get(function(request, response, next){
+    var mq = request.mongooseQuery;
+
     // Get apunte
-    Apunte.findById(request.params.id, function(error, apunte){
+    Apunte.findById(request.params.id, mq.fields, function(error, apunte){
       if (error) {
         return next(error);
       }
