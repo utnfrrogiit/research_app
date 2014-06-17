@@ -17,7 +17,7 @@ app.use(multer({dest: '/var/tmp'}));
 
 // Auth middleware
 app.use(passport.initialize());
-app.use(require('./app/authentication/middleware'));
+app.use(require('./app/middleware/authentication.js'));
 
 app.use(require('./app/middleware/mongooseQuery.js'))
 
