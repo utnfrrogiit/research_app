@@ -26,7 +26,7 @@ app.use(require('./app/middleware/mongooseQuery.js'))
 // API
 var api = express.Router();
 
-api.use(require('./app/authentication/routes.js'));
+api.use(require('./app/users/routes.js'));
 api.use(require('./app/apuntes/routes.js'));
 
 app.use('/api', api);
