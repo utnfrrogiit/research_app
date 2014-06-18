@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var nodemon = require('gulp-nodemon');
+var mocha = require('gulp-mocha');
 
 gulp.task('lint', function() {
   return gulp.src([
@@ -18,4 +19,10 @@ gulp.task('develop', function () {
     ext: 'html js css',
     env: {NODE_ENV: 'development'}
   })
+})
+
+gulp.task('test', function() {
+  process.env.NODE_ENV = 'test';
+  return gulp.src('./test/**/*.js', {read: false})
+    .pipe(mocha({reporter: "spec"}))
 })

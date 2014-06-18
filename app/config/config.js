@@ -28,6 +28,12 @@ var config = {
         rootPath: rootPath,
         db: "mongodb://localhost/research_app_dev",
         port: "8000"
+    },
+    test: {
+      runningEnvironment: 'test',
+      rootPath: rootPath,
+      db: "mongodb://localhost/research_app_test",
+      port: "8000"
     }
 }
 
