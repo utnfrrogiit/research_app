@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var nodemon = require('gulp-nodemon');
 var mocha = require('gulp-mocha');
+var exit = require('gulp-exit');
 
 gulp.task('lint', function() {
   return gulp.src([
@@ -23,6 +24,7 @@ gulp.task('develop', function () {
 
 gulp.task('test', function() {
   process.env.NODE_ENV = 'test';
-  return gulp.src('./test/**/*.js', {read: false})
+  return gulp.src('./app/test/*.js', {read: false})
     .pipe(mocha({reporter: "spec"}))
+    .pipe(exit())
 })
