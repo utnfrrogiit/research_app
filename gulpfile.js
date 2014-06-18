@@ -13,5 +13,9 @@ gulp.task('lint', function() {
 });
 
 gulp.task('develop', function () {
-  nodemon({ script: 'server.js', ext: 'html js css'})
+  nodemon({
+    script: 'server.js',
+    ext: 'html js css',
+    env: {NODE_ENV: 'development'}
+  })
 })

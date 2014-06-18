@@ -10,7 +10,7 @@
  */
 
 //Seteo la variable environment
-var environment = 'development';
+var environment = process.env.NODE_ENV;
 
 var path = require('path');
 var rootPath = path.normalize( __dirname + '/../../' );
