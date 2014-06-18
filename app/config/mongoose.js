@@ -1,18 +1,23 @@
 var mongoose = require('mongoose');
-//Conecto a la base de datos mediante el connectionString del objeto config
-mongoose.connect(require('./config').db);
+var config = require('./config');
 
-//Seteo el objeto de conexion
-var db = mongoose.connection;
+if ( config.runningEnvironment !== 'test' ) {
 
-//Muesto los logs por consola
-db.on('error', console.error.bind(console, "Connection error"));
+	//Conecto a la base de datos mediante el connectionString del objeto config
+	mongoose.connect(require('./config').db);
 
-db.once('open',
-	function callback(){
-		console.log('Connection to db opened');
-	}
-);
+	//Seteo el objeto de conexion
+	var db = mongoose.connection;
+
+	//Muesto los logs por consola
+	db.on('error', console.error.bind(console, "Connection error"));
+
+	db.once('open',
+		function callback(){
+			console.log('Connection to db opened for ' + config.runningEnvironment);
+		}
+	);
+}
 
 /* Compile models. Acá hay que ir ejecutando los scripts
  models.js para que se vayan compilando los modelos a una
