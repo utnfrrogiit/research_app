@@ -1,9 +1,18 @@
 var mongoose = require('mongoose');
 var config = require('./config');
-var dbUtils = require('./dbUtils');
 
 if ( config.runningEnvironment !== 'test' ) {
-	dbUtils.connect(config.db);
+	mongoose.connect(config.db);
+
+	mongoose.connection.on('error', console.error.bind(console, "Connection error"));
+
+	mongoose.connection.on('connected', function(){
+		console.log('Connection opened for ' + config.runningEnvironment + '.');
+	});
+
+	mongoose.connection.on('disconnected', function(){
+		console.log('Connection closed for ' + config.runningEnvironment + '.')
+	})
 }
 
 /* Compile models. Acá hay que ir ejecutando los scripts
