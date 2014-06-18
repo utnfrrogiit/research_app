@@ -37,6 +37,11 @@ app.use(express.static(config.rootPath + '/public'));
 // Error Middleware
 app.use(require('./app/middleware/errorHandling'));
 
-// Run
-app.listen(config.port);
-console.log('Listening at '+ config.port+ " " + config.runningEnvironment);
+// Run if development or production, export if test.
+if (config.runningEnvironment === 'test') {
+  module.exports = app;
+}
+else {
+  app.listen(config.port);
+  console.log('Listening at '+ config.port+ " in " + config.runningEnvironment);
+}
