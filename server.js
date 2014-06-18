@@ -1,6 +1,5 @@
 // Dependencias
 var express = require('express');
-var errorHandling = require('./app/config/errorHandling');
 var bodyParser = require('body-parser');
 var multer = require('multer');
 
@@ -36,7 +35,7 @@ app.use('/uploads/', express.static(config.rootPath + '/uploads'));
 app.use(express.static(config.rootPath + '/public'));
 
 // Error Middleware
-app.use(errorHandling);
+app.use(require('./app/middleware/errorHandling'));
 
 // Run
 app.listen(config.port);
